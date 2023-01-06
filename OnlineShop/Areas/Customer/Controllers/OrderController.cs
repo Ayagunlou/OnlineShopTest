@@ -17,7 +17,20 @@ namespace OnlineShop.Areas.Customer.Controllers
         //Get Checkout
         public IActionResult Checkout()
         {
-            return View();
+            var userId = HttpContext.Session.GetString("useid");
+            var cookieValue = Request.Cookies["log"];
+            if (userId == null && cookieValue == null)
+            {
+                return View();
+            }
+            string decode = AesOperation.Base64Decode(cookieValue);
+            var userdata = _db.ApplicationUsers.FirstOrDefault(c=>c.Id == userId);
+            Order order = new Order();
+            order.Name= $"{userdata.FristName} {userdata.LastName}";
+            order.Email= cookieValue;
+            order.Address = userdata.Address;
+            order.PhoneNo = userdata.PhoneNumber;
+            return View(order);
         }
         //POST Checkout
         [HttpPost]

@@ -31,8 +31,6 @@ namespace OnlineShop.Areas.Customer.Controllers
             {
                 user.EmailConfirmed= true;
                 user.Email= user.UserName;
-                //_db.ApplicationUsers.Add(user);
-                //await _db.SaveChangesAsync();
                 var result =await _userManager.CreateAsync(user,user.PasswordHash+"Aa*");
                 if(result.Succeeded)
                 {
@@ -66,6 +64,8 @@ namespace OnlineShop.Areas.Customer.Controllers
             }
             userinfo.FristName= user.FristName;
             userinfo.LastName= user.LastName;
+            userinfo.PhoneNumber = user.PhoneNumber;
+            userinfo.Address = user.Address;
             var result = await _userManager.UpdateAsync(userinfo);
             if (result.Succeeded)
             {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShop.Models
 {
@@ -6,5 +7,6 @@ namespace OnlineShop.Models
     {
         public string FristName { get; set; }
         public string LastName { get; set; }
+        public string Address { get; set; }
     }
 }

@@ -24,6 +24,12 @@ namespace OnlineShop.Controllers
 
         public IActionResult Privacy()
         {
+            string text = "ppefepkpoqjfpqoefjpqeofjqe";
+            var test1 = AesOperation.Base64Encode(text); 
+            var test2 = AesOperation.Base64Decode(test1);
+            Console.WriteLine(test1);
+            Console.WriteLine(test2);
+
             return View();
         }
 

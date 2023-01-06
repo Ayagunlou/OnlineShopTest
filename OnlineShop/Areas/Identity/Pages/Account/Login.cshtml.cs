@@ -17,6 +17,8 @@ using Microsoft.Extensions.Logging;
 using OnlineShop.Data;
 using OnlineShop.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using OnlineShop.Utility;
 
 namespace OnlineShop.Areas.Identity.Pages.Account
 {
@@ -25,6 +27,7 @@ namespace OnlineShop.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly ApplicationDbContext _db;
+        public string S_key = "eBQETEFK0W4aoEjqMgk0EaDxvddVM9+mk6x/9WuVX1M=";
 
         public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext db)
         {
@@ -111,7 +114,6 @@ namespace OnlineShop.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -131,7 +133,12 @@ namespace OnlineShop.Areas.Identity.Pages.Account
                     if (roleInfo != null)
                     {
                         HttpContext.Session.SetString("roleName", roleInfo.RoleName);
+                        HttpContext.Session.SetString("useid", userInfo.Id);
                     }
+                    var encode = AesOperation.Base64Encode(userInfo.Id);
+                    CookieOptions options = new CookieOptions();
+                    options.HttpOnly = true;
+                    Response.Cookies.Append("log", encode, options);
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

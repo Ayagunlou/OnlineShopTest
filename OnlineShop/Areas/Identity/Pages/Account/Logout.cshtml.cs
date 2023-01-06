@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 
 namespace OnlineShop.Areas.Identity.Pages.Account
 {
@@ -25,6 +28,9 @@ namespace OnlineShop.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            CookieOptions cookieOptions = new CookieOptions();
+            cookieOptions.Expires = DateTime.Now.AddMinutes(-1);
+            Response.Cookies.Append("log", "", cookieOptions);
             await _signInManager.SignOutAsync();
             HttpContext.Session.SetString("roleName", "");
             _logger.LogInformation("User logged out.");

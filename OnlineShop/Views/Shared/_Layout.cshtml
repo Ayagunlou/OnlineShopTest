@@ -5,6 +5,7 @@
 
 @{
     var userRole = HttpContextAccessor.HttpContext.Session.GetString("roleName");
+    var userId = HttpContextAccessor.HttpContext.Session.GetString("useid");
     int count = 0;
     List<Products> products = HttpContextAccessor.HttpContext.Session.Get<List<Products>>("products");
     if (products == null)

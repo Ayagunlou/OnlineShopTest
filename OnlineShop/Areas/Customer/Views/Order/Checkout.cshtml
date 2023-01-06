@@ -1,6 +1,8 @@
 ﻿@model OnlineShop.Models.Order
 @using OnlineShop.Utility
 @using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Order Details";
@@ -55,19 +57,10 @@
                     <label asp-for="Email"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Email" class="form-control">
+                    <input asp-for="Email" class="form-control" value="@User.Identity?.Name">
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
-@*            <div class="form-group row mb-3 mt-3">
-                <div class="col-4">
-                    <label asp-for="OrderDate"></label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="OrderDate" type="date" class="form-control">
-                    <span asp-validation-for="OrderDate" class="text-danger"></span>
-                </div>
-            </div>*@
         </div>
         <div class="col-6">
             <table class="table table-bordered text-light">
